@@ -7,31 +7,19 @@
 // Project Name: Ling Adder 64 bit
 //////////////////////////////////////////////////////////////////////////////////
 
-
-module ling(ain,bin,cin,clk,enable,s,cout);
+module ling_64(ain,bin,cin,s,cout);
  input [63:0] ain,bin;
  input cin;
  output[63:0] s;
  output cout; 
- input clk,enable;
- reg [63:0] a,b; reg c;
+// input clk,enable;
+ wire [63:0] a,b; wire c;
  wire [63:0] t,g,h,p;
 
-always@(clk)
-	begin
-		if(enable) a= ain;
-		else a = 0;
-		end
-		always@(clk)
-		begin
-		if(enable) b= bin;
-		else b = 0;
-		end
-		always@(clk)
-			begin
-			if(enable) c= cin;
-			else c = 0;
-end
+
+	assign a = ain;
+	assign b = bin;
+	assign c = cin;
 
 	assign g[63:0] = a [63:0] & b[63:0];
 	assign t[63:0] = a [63:0] | b[63:0];
@@ -69,9 +57,10 @@ end
 	assign h[21]  = g[21]|g[20]|(t[20] & t[19] & h[19]);
 	assign h[22]  = g[22]|g[21]|(g[20] & t[21])|(t[21] & t[20] & t[19] & h[19]);
 	assign h[23]  = g[23]|g[22]|(g[21] & t[22])|(t[22] & t[21] & g[20])|(t[22] & t[21] & t[20] & t[19] & h[19]);
+	//24-bit 
 	
 	assign h[24]  = g[24]|(t[23] & h[23]);
-	assign h[25]  = g[25]|g[24]|(t[24] & t[23] & h[23]);
+	assign h[25]  = g[25]|g[24]|(t[24] & t[23] & h[23]); // 26-bit 
 	assign h[26]  = g[26]|g[25]|(g[24] & t[25])|(t[25] & t[24] & t[23] & h[23]);
 	assign h[27]  = g[27]|g[26]|(g[25] & t[26])|(t[26] & t[25] & g[24])|(t[26] & t[25] & t[24] & t[23] & h[23]);
 	
@@ -100,6 +89,7 @@ end
 	assign h[45]  = g[45]|g[44]|(t[44] & t[43] & h[43]);
 	assign h[46]  = g[46]|g[45]|(g[44] & t[45])|(t[45] & t[44] & t[43] & h[43]);
 	assign h[47]  = g[47]|g[46]|(g[45] & t[46])|(t[46] & t[45] & g[44])|(t[46] & t[45] & t[44] & t[43] & h[43]);
+	//48 bit
 	
 	assign h[48]  = g[48]|(t[47] & h[47]);
 	assign h[49]  = g[49]|g[48]|(t[48] & t[47] & h[47]);
@@ -121,6 +111,7 @@ end
 	assign h[62]  = g[62]|g[61]|(g[60] & t[61])|(t[61] & t[60] & t[59] & h[59]);
 	assign h[63]  = g[63]|g[62]|(g[61] & t[62])|(t[62] & t[61] & g[60])|(t[62] & t[61] & t[60] & t[59] & h[59]);
 	//64 bit
+	
 
 	assign s[0] = p[0] ^ h[0];
 	assign s[63:1] = p[63:1] ^ (t[62:0] & h[62:0]);
