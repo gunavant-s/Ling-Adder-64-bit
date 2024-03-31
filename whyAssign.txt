@@ -1,0 +1,6 @@
+In Verilog, signals can be continuously assigned values using assign statements without the need for procedural blocks like always or initial. 
+Continuous assignments are evaluated whenever any of the input signals change.
+So instead of always block, assign statements are used.
+Using initial begin for continuous assignments is not recommended in Verilog. 
+The initial block is typically used for initializing variables or executing certain procedural statements at the beginning of simulation, not for continuous assignments.
+We can modify using "always @(posedge clk) begin ______ end ".
